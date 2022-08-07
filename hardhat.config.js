@@ -10,9 +10,10 @@ require('./tasks');
 module.exports = {
   solidity: "0.8.9",
   networks: {
-    rinkeby: {
-      url: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161', // public infura endpoint
-      chainId: 4,
+    goerli: {
+      url: 'https://eth-goerli.g.alchemy.com/v2/VsoymG3gh4unqMxKofZZ5LVdRRCRqcY-', // public infura endpoint
+      chainId: 5,
+      accounts: ["42cc6a7e9e9b6b5e3fca6d75ae4767a76cb9c216f1c30ee639e6037418d6f0cc"]
     },
   }
 };
