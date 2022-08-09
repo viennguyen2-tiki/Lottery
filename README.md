@@ -37,3 +37,9 @@ Deploy to testnet
 npx hardhat compile
 npx hardhat run --network goerli scripts/deploy-testnet.js
 ```
+
+### - UI
+```shell
+yarn 
+yarn start
+```

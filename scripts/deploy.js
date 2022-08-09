@@ -10,6 +10,11 @@ const path = require("path");
 
 async function main() {
 	const envFilepath = path.resolve(__dirname, "..", ".env");
+	try {
+		if (fs.existsSync(envFilepath)) {
+			fs.unlink(envFilepath);
+		}
+	} catch (e) {}
 	const { ethers } = hre;
 	const Money = await ethers.getContractFactory("Money");
 	const money = await Money.deploy("Money", "MON");
@@ -19,12 +24,11 @@ async function main() {
 	const [owner, player1, player2, player3] = await ethers.getSigners();
 
 	const amount = ethers.utils.parseUnits(String(100), 18);
-  // from player to game address
-	await money.connect(owner).approve(lottery.address, amount);
-	await money.connect(player1).approve(lottery.address, amount);
-	await money.connect(player2).approve(lottery.address, amount);
-	await money.connect(player3).approve(lottery.address, amount);
-
+	// from player to game address
+	// await money.connect(owner).approve(lottery.address, amount);
+	// await money.connect(player1).approve(lottery.address, amount);
+	// await money.connect(player2).approve(lottery.address, amount);
+	// await money.connect(player3).approve(lottery.address, amount);
 
 	await money.mint(player1.address, amount);
 

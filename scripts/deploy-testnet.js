@@ -11,10 +11,15 @@ const usdcAbi = require('./usdc_abi.json');
 
 async function main() {
 	const envFilepath = path.resolve(__dirname, "..", ".env_testnet");
+	try{
+		fs.unlink(envFilepath);
+	}catch(e){}
 	const MONEY_ADDRESS = "0x07865c6e87b9f70255377e024ace6630c1eaa37f";//USDC
 	const { ethers } = hre;
 	const Lottery = await ethers.getContractFactory("Lottery");
 	const lottery = await Lottery.deploy();
+
+	await lottery.setGameCurrency("0x07865c6e87b9f70255377e024ace6630c1eaa37f");
 
 	// const [owner] = await ethers.getSigners();
 

@@ -206,6 +206,11 @@ describe("Lottery", function () {
 
 		expect(remainBalanceOfPlayer).to.be.eq("1.0");
 		expect(finalBalanceOfGame).to.be.eq("2.0");
+		// 2 player
+		expect(await this.lotteryContract.numberOfPlayerInGame(0)).to.be.equal(2);
+		const [player1Address, player1BetNumber] = await this.lotteryContract.playerOfGame(0, 0);
+		expect(player1Address).to.be.equal(await player1.getAddress());
+		expect(player1BetNumber).to.be.equal(betNumberOfPlayer1);
 	});
 
 	it("should NOT stop a game if not dealer", async function () {
@@ -383,6 +388,9 @@ describe("Lottery", function () {
 		).to.be.eq("0.3");
 
 		const game = await this.lotteryContract.games(2);
+		console.log(game)
 		expect(game.winNumber).to.be.equal(betNumberOfPlayer2);
+		const winners = await this.lotteryContract.winnersOfGame(2);
+		expect(winners.length).to.be.equal(2);
 	});
 });
