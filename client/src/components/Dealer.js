@@ -7,7 +7,6 @@ const Dealer = ({
 	setLoading,
 	setAlert,
 	game,
-	updateBalance
 }) => {
 	const createNewGame = async () => {
 		setLoading("Creating a new game....");
@@ -30,7 +29,6 @@ const Dealer = ({
 				link: `${process.env.REACT_APP_SCAN_URL}/address/${owner}`,
 			});
 		}
-		updateBalance();
 		setLoading("");
 	};
 
@@ -55,7 +53,6 @@ const Dealer = ({
 			});
 		}
 		setLoading("");
-		updateBalance();
 	};
 
 	const isCreateNewGame = () => {

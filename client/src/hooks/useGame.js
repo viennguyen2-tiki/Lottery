@@ -5,7 +5,6 @@ function useGame() {
 	const [gameInfo, setGameInfo] = useState(undefined);
 	const [load, setLoad] = useState(false);
 	useEffect(() => {
-		let interval;
 		async function call() {
 			const contract = await getGameContract();
 			if (contract) {
@@ -14,8 +13,7 @@ function useGame() {
 						await contract.methods.nextGameId().call()
 					);
 					if (
-						nextGameId > 0 &&
-						(!gameInfo || parseInt(gameInfo.id) !== nextGameId - 1)
+						nextGameId > 0
 					) {
 						const game = await contract.methods
 							.games(nextGameId - 1)
@@ -26,16 +24,20 @@ function useGame() {
 						const players = await contract.methods
 							.numberOfPlayerInGame(game.id)
 							.call();
+						const playerAddress = [];
+						for(let i = 0; i < parseInt(players); i++){
+							const address = await contract.methods.playerOfGame(nextGameId - 1, i).call();
+							playerAddress.push(address)
+						}
 						setGameInfo({
 							...game,
 							balance,
 							players,
+							playerAddress
 						});
 					}
-					clearInterval(interval);
 				} catch (e) {
 					console.log(e);
-					clearInterval(interval);
 				}
 			}
 		}

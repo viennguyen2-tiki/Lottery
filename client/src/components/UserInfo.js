@@ -5,14 +5,14 @@ import RowInfo from "./Row";
 
 const UserInfo = ({ address, money, eth }) => {
 	return (
-		<div className="game-info">
-			<div className="game-info-title">
+		<div className="game-info" key={address}>
+			<div className="game-info-title" key={`${address}1`}>
 				<div>User info</div>
 			</div>
-			<div className="body-padding">
-				<form>
-					<RowInfo key={1} items={[{ name: "Address", value: address }]} />
-					<RowInfo key={2}
+			<div className="body-padding" key={`${address}2`}>
+				<form key={`${address}3`}>
+					<RowInfo key={`${address}4`} items={[{ name: "Address", value: address }]} />
+					<RowInfo key={`${address}5`}
 						items={[
 							{
 								name: "Money",

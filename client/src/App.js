@@ -24,6 +24,7 @@ function App() {
 	const [alert, setAlert] = useState({ msg: "", type: "success" });
 	const { gameInfo, loadGameStatus } = useGame();
 	const { games, loadHistory } = useGameHistory();
+	const [ loop, setLoop ] = useState(1);
 
 	useEffect(() => {
 		const init = async () => {
@@ -58,10 +59,16 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		if (isReady()) {
-			updateBalance();
+		const interval = setInterval(() => {
+			if (isReady()) {
+				updateBalance();
+			}
+			setLoop(interval);
+		}, 1000)
+		return () => {
+			clearInterval(interval);
 		}
-	}, [account, web3, moneyInfo.contract]);
+	}, [loop]);
 
 	async function updateBalance() {
 		const balance = await web3.eth.getBalance(account);
@@ -102,7 +109,6 @@ function App() {
 					setLoading={setLoading}
 					setAlert={setAlert}
 					game={gameInfo}
-					updateBalance={updateBalance}
 				/>
 			) : (
 				<Player
@@ -110,7 +116,6 @@ function App() {
 					setAlert={setAlert}
 					game={gameInfo}
 					owner={account}
-					updateBalance={updateBalance}
 				/>
 			)}
 			<GameHistory items={games} />

@@ -177,10 +177,6 @@ contract Lottery{
         }
     }
 
-    function _transferMoney(address to, uint amount) private {
-
-    }
-
     function _getWinNumber() private view returns(uint8) {
         return uint8(block.timestamp.mod(100));
     }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { GAME_STATUS } from "../constants";
 import { approveSendMoney, getGameContract, getGas } from "../utils";
 
-const Player = ({ owner, setLoading, setAlert, game, updateBalance }) => {
+const Player = ({ owner, setLoading, setAlert, game }) => {
 	const [betNumber, setBetNumber] = useState();
 	const betGame = async () => {
 		if (
@@ -36,7 +36,7 @@ const Player = ({ owner, setLoading, setAlert, game, updateBalance }) => {
 					link: `${process.env.REACT_APP_SCAN_URL}/address/${owner}`,
 				});
 			} else {
-				
+				setLoading("");
 			}
 		} catch (e) {
 			setAlert({
@@ -45,16 +45,19 @@ const Player = ({ owner, setLoading, setAlert, game, updateBalance }) => {
 				link: `${process.env.REACT_APP_SCAN_URL}/address/${owner}`,
 			});
 		}
-		updateBalance();
 		setLoading("");
 	};
+
+	const isBet = () => {
+		return game && game.playerAddress && game.playerAddress.map(item => (item['0'] === owner)).length > 0
+	}
 	return (
 		<div className="game-area">
 			<div className="game-info-title">
 				<div>Control game</div>
 			</div>
 			<div className="body-padding">
-				{game && game.status === GAME_STATUS.START ? (
+				{game && game.status === GAME_STATUS.START && !isBet() ? (
 					<>
 						<div className="input-group mb-3">
 							<span
@@ -84,7 +87,7 @@ const Player = ({ owner, setLoading, setAlert, game, updateBalance }) => {
 						</button>
 					</>
 				) : (
-					<p>No game to bet</p>
+					<p>{isBet() ? "You bet" : "No game to bet" }</p>
 				)}
 			</div>
 		</div>
